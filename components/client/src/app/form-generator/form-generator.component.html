@@ -1,0 +1,15 @@
+<div [formGroup]="form">
+  <ng-container *ngFor="let control of formControls | keyvalue">
+    <ng-container [ngSwitch]="control.value.type">
+      <div *ngSwitchCase="'boolean'">
+        <mat-slide-toggle [formControlName]="control.key">
+          {{ control.value.label }}
+        </mat-slide-toggle> 
+      </div>     
+      <div *ngSwitchCase="'number'">
+        <app-number-input [label]="control.value.label" [initialValue]="control.value.initialValue" [formControlName]="control.key">
+        </app-number-input>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

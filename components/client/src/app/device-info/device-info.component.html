@@ -1,0 +1,11 @@
+<div class="device-info-container" *ngIf="(device$ | async) as device; else noDevice">
+  <div class="device-info">
+    <div class="device-name">{{ device.name }}</div>
+  </div>
+  <app-form-generator *ngIf="device.controls?.length" [config]="device.controls">
+  </app-form-generator>
+</div>
+<ng-template #noDevice>
+  <p class="no-device-selected">No device selected</p>
+</ng-template>
+  

@@ -12,22 +12,11 @@ export class DevicesService {
 
     private readonly baseUrl = 'http://localhost:3000';
 
-    getDevices(): Observable<any[]> {
+    getDevices(): Observable<Device[]> {
         return this.http.get<Device[]>(`${this.baseUrl}/api/v1/devices/`);
     }
-    
-    // addDevice(device: any): void {
-    //     this.devices.push(device);
-    // }
 
-    // removeDevice(deviceId: string): void {
-    //     this.devices = this.devices.filter(device => device.id !== deviceId);
-    // }
-
-    // updateDevice(deviceId: string, updatedDevice: any): void {
-    //     const index = this.devices.findIndex(device => device.id === deviceId);
-    //     if (index !== -1) {
-    //         this.devices[index] = updatedDevice;
-    //     }
-    // }
+    getDeviceById(id: string): Observable<Device> {
+        return this.http.get<Device>(`${this.baseUrl}/api/v1/devices/${id}`);
+    }
 }

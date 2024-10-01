@@ -3,7 +3,7 @@
   <p class="description">Here are the devices you have connected to your account.</p>
   <div>
     <div class="device-list">
-      <div *ngFor="let device of devices" class="device">
+      <div *ngFor="let device of devices" class="device" (click)="onDeviceClick(device.id)">
         <div class="device-info">
           <div class="device-name">{{ device.name }}</div>
         </div>

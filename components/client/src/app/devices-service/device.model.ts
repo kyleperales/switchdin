@@ -1,7 +1,7 @@
 export interface Control {
   key: string;
   name: string;
-  type: boolean | number;
+  type: 'boolean' | 'number';
   value: boolean | number | null;
 }
 

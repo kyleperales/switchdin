@@ -1,0 +1,10 @@
+<div>
+  <div class="number-input">
+    <span>{{ label }}</span>
+    <span>{{ initialValue }}</span>
+  </div>
+  <mat-form-field>
+    <input matInput type="text" [(ngModel)]="value">
+  </mat-form-field>
+  <button mat-raised-button (click)="onUpdate()">Update</button>
+</div>
