@@ -1,0 +1,33 @@
+@import './../../variables.scss';
+
+.device-list-container {
+  .greeting {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    color: $white;
+  }
+
+  .description {
+    font-size: 1em;
+    margin-bottom: 1em;
+    color: $white;
+  }
+
+  .device-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    .device {
+      width: 30%;
+      margin-bottom: 1em;
+      padding: 1em;
+      background: $white;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      .device-name {
+        font-size: 1.5em;
+        margin-bottom: 0.5em;
+      }
+    }
+  }
+}
