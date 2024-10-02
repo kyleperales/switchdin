@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatInputModule } from '@angular/material/input'
@@ -41,6 +41,7 @@ export class DeviceInfoComponent implements OnInit{
 
   private subscriptions = new Subscription()
 
+  @ViewChild('formGenerator') formGenerator: FormGeneratorComponent
 
   ngOnInit() {
     const deviceId = this.route.snapshot.paramMap.get('id')
@@ -78,6 +79,7 @@ export class DeviceInfoComponent implements OnInit{
         .pipe(
           catchError(err => {
             console.error(err)
+            this.formGenerator.resetForm()
             return of(null)
           })
         )

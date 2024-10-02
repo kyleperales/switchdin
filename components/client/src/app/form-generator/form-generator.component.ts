@@ -29,6 +29,10 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
 
   form: FormGroup = new FormGroup({})
   formControls: { [key: string]: CustomControl } = {}
+  
+  // This is a workaround to prevent the form from emitting changes when reset
+  // not sure why emitEvent is not working
+  private fromReset = false
 
   ngOnInit() {
     this.setupForm()
@@ -58,7 +62,10 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
 
     this.subscriptions.add(
       this.form.valueChanges.subscribe(value => {
-        this.onChanges.emit(value)
+        if (!this.fromReset) {
+          this.onChanges.emit(value)
+        }
+        this.fromReset = false
       })
     )
   }
@@ -72,5 +79,10 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
     return new NumberControl(null)
       .setLabel(control.name)
       .setInitialValue(control.value as number)
+  }
+
+  resetForm() {
+    this.fromReset = true
+    this.form.reset({ emitEvent: false })
   }
 }
