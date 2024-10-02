@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { env } from '../../env'
-import { IDevice } from './device.model'
+import { IDevice, IUpdateControl, IUpdateResponse } from './device.model'
 
 @Injectable({ providedIn: 'root' })
 export class DevicesService {    
@@ -16,5 +16,9 @@ export class DevicesService {
 
   getDeviceById(id: string): Observable<IDevice> {
     return this.http.get<IDevice>(`${env.baseUrl}/api/v1/devices/${id}`)
+  }
+
+  updateDevice(id: string, controls: IUpdateControl[]): Observable<IUpdateResponse> {
+    return this.http.post<IUpdateResponse>(`${env.baseUrl}/api/v1/devices/${id}`, { controls })
   }
 }

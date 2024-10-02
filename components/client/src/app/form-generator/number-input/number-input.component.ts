@@ -39,7 +39,7 @@ export class NumberInputComponent implements ControlValueAccessor {
   }
   get initialValue(): number | string {
     return this._initialValue === null
-      ? 'NA'
+      ? ''
       : this._initialValue
   }
 

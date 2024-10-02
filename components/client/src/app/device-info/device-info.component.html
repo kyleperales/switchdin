@@ -4,7 +4,9 @@
   </div>
   <mat-tab-group>
     <mat-tab label="Controls"> 
-      <app-form-generator *ngIf="device.controls?.length" [config]="device.controls">
+      <app-form-generator *ngIf="device.controls?.length"
+        [config]="device.controls"
+        (onChanges)="onFormChanges($event)">
       </app-form-generator>
     </mat-tab>
     <mat-tab label="Metrics"> Content 2 </mat-tab>
