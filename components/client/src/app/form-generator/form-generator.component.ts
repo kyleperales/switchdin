@@ -56,8 +56,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
       })
       this.formControls = group
       this.form = new FormGroup(group)
-      console.log(group)
-      console.log(this.form)
     }
 
     this.subscriptions.add(

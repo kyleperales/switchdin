@@ -56,8 +56,7 @@ export class DeviceInfoComponent implements OnInit{
           filter(id => !!id),
           switchMap(id => this.devicesService.getDeviceById(id as string)),
           catchError(err => {
-            console.error(err)
-            return of(null)
+            throw Error(err)
           }),
           tap(device => {
             this.deviceControlsMap = (device?.controls ?? [])
@@ -68,7 +67,6 @@ export class DeviceInfoComponent implements OnInit{
           })
         )
         .subscribe(device => {
-          console.log(device)
           this.deviceSubject.next(device)
         })
     )
@@ -81,13 +79,11 @@ export class DeviceInfoComponent implements OnInit{
       this.devicesService.updateDevice(this.deviceSubject.value.id, updateControls)
         .pipe(
           catchError(err => {
-            console.error(err)
             this.formGenerator.resetForm()
-            return of(null)
+            throw Error(err)
           })
         )
         .subscribe(response => {
-          console.log(response)
           this.deviceIdSubject.next(this.deviceIdSubject.value)
         })
     }

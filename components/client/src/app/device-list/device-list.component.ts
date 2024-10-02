@@ -24,13 +24,11 @@ export class DeviceListComponent implements OnInit{
     this.devicesService.getDevices()
       .pipe(
         catchError(err => {
-          console.error(err)
-          return []
+          throw Error(err)
         })
       )
       .subscribe(devices => {
         this.devices = devices
-        console.log(devices)
       })
   }
 
