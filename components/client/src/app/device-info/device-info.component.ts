@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common'
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatTabsModule } from '@angular/material/tabs'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { BehaviorSubject, catchError, filter, of, Subscription, switchMap, tap } from 'rxjs'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
 import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
@@ -20,7 +21,8 @@ import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/
     MatButtonModule,
     ReactiveFormsModule,
     FormGeneratorComponent,
-    MatTabsModule
+    MatTabsModule,
+    MatIconModule
   ],
   templateUrl: './device-info.component.html',
   styleUrl: './device-info.component.scss'
@@ -30,6 +32,7 @@ export class DeviceInfoComponent implements OnInit{
   constructor(
     private devicesService: DevicesService,
     private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   private deviceSubject = new BehaviorSubject<IDevice | null>({} as IDevice)
@@ -97,5 +100,9 @@ export class DeviceInfoComponent implements OnInit{
         ? device[key]
         : device[key] ?? this.deviceControlsMap.get(key)?.value ?? 0
     }))
+  }
+
+  onHomeClick() {
+    this.router.navigate(['devices'])
   }
 }

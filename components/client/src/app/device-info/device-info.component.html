@@ -1,6 +1,9 @@
 <div class="device-info-container" *ngIf="(device$ | async) as device; else noDevice">
   <div class="device-info">
-    <p>{{ device.name }}</p>
+    <p>{{ device.name }}</p>    
+    <button mat-mini-fab (click)="onHomeClick()">
+      <mat-icon>home</mat-icon>
+    </button>
   </div>
   <mat-tab-group>
     <mat-tab label="Controls"> 
