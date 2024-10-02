@@ -1,6 +1,6 @@
 <div class="device-info-container" *ngIf="(device$ | async) as device; else noDevice">
   <div class="device-info">
-    <div class="device-name">{{ device.name }}</div>
+    <p>{{ device.name }}</p>
   </div>
   <mat-tab-group>
     <mat-tab label="Controls"> 

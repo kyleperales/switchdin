@@ -1,0 +1,9 @@
+@import '../../variables.scss';
+
+.device-info-container {
+  width: 35vw;
+  mat-tab-group {
+    background-color: $white;
+    border-radius: 5px;
+  }
+}

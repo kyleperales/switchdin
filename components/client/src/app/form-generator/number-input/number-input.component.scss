@@ -1,0 +1,23 @@
+.number-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+
+  .input-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 100%;
+    .input-label {
+      margin-right: 10px;
+    }
+  }
+  .input-fields {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+}

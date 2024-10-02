@@ -1,4 +1,23 @@
-.number-input {
+
+.form-generator-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: start;
+  margin: 30px;
+
+  .input-container {
+    width: 100%;
+  }
+  
+  .number-input {
+    display: flex;
+    flex-direction: row;
+  }
+
+  mat-slide-toggle {
+    margin: 15px;
+  }
+  app-number-input {
+    width: 100%;
+  }
 }
