@@ -1,0 +1,25 @@
+<div class="chart-container">
+  <div class="chart-group">
+    <span class="header">Metrics</span>
+    <div *ngFor="let metric of metrics" class="chart">
+      <span>{{ metric.name }} ({{ metric.unit }})</span>
+      <div>
+        <app-line-chart
+          [newData]="metricsDataMap.get(metric.key) ?? null"
+          [label]="metricsUnitMap.get(metric.key) ?? ''">
+        </app-line-chart>
+      </div>
+    </div>
+  </div>
+  <div class="chart-group">
+    <span class="header">Controls</span>
+    <div *ngFor="let control of controls" class="chart">
+      <span>{{ control.name }}</span>
+      <div>
+        <app-line-chart
+          [newData]="controlsDataMap.get(control.key) ?? null">
+        </app-line-chart>
+      </div>
+    </div>
+  </div>
+</div>

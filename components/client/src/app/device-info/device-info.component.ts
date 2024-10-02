@@ -11,8 +11,8 @@ import { BehaviorSubject, catchError, filter, Subscription, switchMap, tap } fro
 import { Actions, StatusService, StatusState } from '../core/status'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
 import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
+import { ChartsComponent } from './charts/charts.component'
 import { DEVICE_UPDATE_STEPS } from './device-info.model'
-import { MetricsComponent } from './metrics/metrics.component'
 
 @Component({
   selector: 'app-device-info',
@@ -26,7 +26,7 @@ import { MetricsComponent } from './metrics/metrics.component'
     FormGeneratorComponent,
     MatTabsModule,
     MatIconModule,
-    MetricsComponent
+    ChartsComponent
   ],
   templateUrl: './device-info.component.html',
   styleUrl: './device-info.component.scss'
@@ -40,7 +40,7 @@ export class DeviceInfoComponent implements OnInit, OnDestroy {
     private statusService: StatusService
   ) { }
 
-  private deviceSubject = new BehaviorSubject<IDevice | null>({} as IDevice)
+  private deviceSubject = new BehaviorSubject<IDevice | null>(null)
   public device$ = this.deviceSubject.asObservable()
 
   private deviceControlsMap = new Map<string, IControl>()

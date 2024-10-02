@@ -12,9 +12,9 @@
         (onChanges)="onFormChanges($event)">
       </app-form-generator>
     </mat-tab>
-    <mat-tab label="Metrics">
-      <app-metrics [deviceId]="device.id">
-      </app-metrics>
+    <mat-tab label="Charts">
+      <app-charts [device]="device">
+      </app-charts>
     </mat-tab>
   </mat-tab-group>  
 </div>

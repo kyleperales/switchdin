@@ -1,0 +1,22 @@
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+
+  .chart-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    
+    .header {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .chart {
+      padding: 10px;
+    }
+  }
+}

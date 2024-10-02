@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core'
-import { env } from '../../../environment'
 import { webSocket } from 'rxjs/webSocket'
+import { env } from '../../../environment'
 
 enum WebSocketType {
   subscribe = 'subscribe',
   unsubscribe = 'unsubscribe'
 }
 
+export interface IWebSocketMetric {
+  metric: string
+  value: number
+}
+
+export interface IWebSocketData {
+  devideId: string
+  measurements: IWebSocketMetric[]
+}
+
 @Injectable({
  providedIn: 'root',
 })
-export class MetricsService {
+export class ChartsService {
   private webSocketSubject = webSocket(env.webSocketUrl)
   webSocket$ = this.webSocketSubject.asObservable()
 
