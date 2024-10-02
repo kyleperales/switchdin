@@ -38,7 +38,6 @@ export class ChartsComponent implements OnChanges, OnDestroy, AfterViewInit, OnC
         filter(data => (data as { type: string })?.type !== 'control-acknowledgement'),
       )
       .subscribe(data => {
-        console.log(data)
         this.mapData(data as IWebSocketData)
       })
   }
