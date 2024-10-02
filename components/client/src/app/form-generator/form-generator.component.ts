@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
-import { Control } from '../devices-service'
+import { IControl } from '../devices-service'
 import { CustomControl, NumberControl, SlideControl } from './custom-controls/custom-control'
 import { NumberInputComponent } from './number-input/number-input.component'
 
@@ -15,7 +15,7 @@ import { NumberInputComponent } from './number-input/number-input.component'
 })
 export class FormGeneratorComponent implements OnInit {
 
-  @Input() config: Control[] = []
+  @Input() config: IControl[] = []
 
   constructor() { }
 
@@ -39,7 +39,7 @@ export class FormGeneratorComponent implements OnInit {
     })
   }
 
-  private determineControl(control: Control): CustomControl {
+  private determineControl(control: IControl): CustomControl {
     if (control.type === 'boolean') {
       return new SlideControl(control.value)
         .setLabel(control.name)

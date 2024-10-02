@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { catchError } from 'rxjs';
-import { Device, DevicesService } from '../devices-service';
+import { CommonModule } from '@angular/common'
+import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
+import { catchError } from 'rxjs'
+import { IDevice, DevicesService } from '../devices-service'
 
 @Component({
   selector: 'app-device-list',
@@ -18,23 +18,23 @@ export class DeviceListComponent implements OnInit{
     private router: Router
   ) { }
 
-  devices: Device[] = []
+  devices: IDevice[] = []
 
   ngOnInit() {
     this.devicesService.getDevices()
       .pipe(
         catchError(err => {
-          console.error(err);
-          return [];
+          console.error(err)
+          return []
         })
       )
       .subscribe(devices => {
-        this.devices = devices;
-        console.log(devices);
-      });
+        this.devices = devices
+        console.log(devices)
+      })
   }
 
   onDeviceClick(id: string) {
-    this.router.navigate(['device-info', id]);
+    this.router.navigate(['device-info', id])
   }
 }

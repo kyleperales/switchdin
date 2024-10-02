@@ -7,7 +7,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatTabsModule } from '@angular/material/tabs'
 import { ActivatedRoute } from '@angular/router'
 import { BehaviorSubject, catchError, of } from 'rxjs'
-import { Device, DevicesService } from '../devices-service'
+import { IDevice, DevicesService } from '../devices-service'
 import { FormGeneratorComponent } from '../form-generator/form-generator.component'
 
 @Component({
@@ -32,7 +32,7 @@ export class DeviceInfoComponent implements OnInit{
     private route: ActivatedRoute,
   ) { }
 
-  private deviceSubject = new BehaviorSubject<Device | null>({} as Device)
+  private deviceSubject = new BehaviorSubject<IDevice | null>({} as IDevice)
   public device$ = this.deviceSubject.asObservable()
 
   ngOnInit() {

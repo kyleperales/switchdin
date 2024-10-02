@@ -1,19 +1,19 @@
-export interface Control {
+export interface IControl {
   key: string;
   name: string;
   type: 'boolean' | 'number';
   value: boolean | number | null;
 }
 
-export interface Metric {
+export interface IMetric {
   key: string;
   name: string;
   unit: string;
 }
 
-export interface Device {
+export interface IDevice {
   id: string;
   name: string;
-  controls: Control[];
-  metrics: Metric[];
+  controls: IControl[];
+  metrics: IMetric[];
 }
