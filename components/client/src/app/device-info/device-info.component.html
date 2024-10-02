@@ -2,10 +2,14 @@
   <div class="device-info">
     <div class="device-name">{{ device.name }}</div>
   </div>
-  <app-form-generator *ngIf="device.controls?.length" [config]="device.controls">
-  </app-form-generator>
+  <mat-tab-group>
+    <mat-tab label="Controls"> 
+      <app-form-generator *ngIf="device.controls?.length" [config]="device.controls">
+      </app-form-generator>
+    </mat-tab>
+    <mat-tab label="Metrics"> Content 2 </mat-tab>
+  </mat-tab-group>  
 </div>
 <ng-template #noDevice>
   <p class="no-device-selected">No device selected</p>
 </ng-template>
-  

@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Control } from '../devices-service';
-import { CustomControl, NumberControl, SlideControl } from './custom-controls/custom-control';
-import { NumberInputComponent } from './number-input/number-input.component';
+import { CommonModule } from '@angular/common'
+import { Component, Input, OnInit } from '@angular/core'
+import { FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { Control } from '../devices-service'
+import { CustomControl, NumberControl, SlideControl } from './custom-controls/custom-control'
+import { NumberInputComponent } from './number-input/number-input.component'
 
 @Component({
   selector: 'app-form-generator',
@@ -15,35 +15,38 @@ import { NumberInputComponent } from './number-input/number-input.component';
 })
 export class FormGeneratorComponent implements OnInit {
 
-  @Input() config: Control[] = [];
+  @Input() config: Control[] = []
 
   constructor() { }
 
-  form: FormGroup = new FormGroup({});
-  formControls: { [key: string]: CustomControl } = {};
+  form: FormGroup = new FormGroup({})
+  formControls: { [key: string]: CustomControl } = {}
 
   ngOnInit() {
-    const group: { [key: string]: CustomControl } = {};
+    const group: { [key: string]: CustomControl } = {}
     if (this.config) {
       this.config.forEach(control => {
-        group[control.key] = this.determineControl(control);
-      });
-      this.formControls = group;
-      this.form = new FormGroup(group);
-      console.log(group);
-      console.log(this.form);
+        group[control.key] = this.determineControl(control)
+      })
+      this.formControls = group
+      this.form = new FormGroup(group)
+      console.log(group)
+      console.log(this.form)
     }
 
     this.form.valueChanges.subscribe(value => {
-      console.log(value);
-    });
+      console.log(value)
+    })
   }
 
   private determineControl(control: Control): CustomControl {
     if (control.type === 'boolean') {
-      return new SlideControl(control.value);
+      return new SlideControl(control.value)
+        .setLabel(control.name)
     }
     
-    return new NumberControl(control.value as number);
+    return new NumberControl(null)
+      .setLabel(control.name)
+      .setInitialValue(control.value as number)
   }
 }
