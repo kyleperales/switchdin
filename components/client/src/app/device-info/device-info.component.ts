@@ -60,6 +60,7 @@ export class DeviceInfoComponent implements OnInit{
           switchMap(id => this.devicesService.getDeviceById(id as string)),
           catchError(err => {
             this.statusService.updateStatus(Actions.RefreshDeviceProperties, StatusState.Failed)
+            this.onHomeClick()
             throw Error(err)
           }),
           tap(device => {
@@ -87,6 +88,7 @@ export class DeviceInfoComponent implements OnInit{
         .pipe(
           catchError(err => {
             this.statusService.updateStatus(Actions.UpdateDeviceStates, StatusState.Failed)
+            this.deviceIdSubject.next(this.deviceIdSubject.value)
             this.formGenerator.resetForm()
             throw Error(err)
           })

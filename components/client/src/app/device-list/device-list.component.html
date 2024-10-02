@@ -2,9 +2,14 @@
   <p>Welcome!</p>
   <p class="description">Here are the devices you have connected to your account.</p>
   <div class="device-list">
-    <div *ngFor="let device of devices" class="device" (click)="onDeviceClick(device.id)">
-      <div class="device-info">
-        <div class="device-name">{{ device.name }}</div>
+    <div *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!isLoading">
+      <div *ngFor="let device of devices" class="device" (click)="onDeviceClick(device.id)">
+        <div class="device-info">
+          <div class="device-name">{{ device.name }}</div>
+        </div>
       </div>
     </div>
   </div>
