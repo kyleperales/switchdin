@@ -7,9 +7,11 @@ import { MatInputModule } from '@angular/material/input'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatTabsModule } from '@angular/material/tabs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { BehaviorSubject, catchError, filter, of, Subscription, switchMap, tap } from 'rxjs'
+import { BehaviorSubject, catchError, filter, Subscription, switchMap, tap } from 'rxjs'
+import { Actions, StatusService, StatusState } from '../core/status'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
 import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
+import { DEVICE_UPDATE_STEPS } from './device-info.model'
 
 @Component({
   selector: 'app-device-info',
@@ -32,7 +34,8 @@ export class DeviceInfoComponent implements OnInit{
   constructor(
     private devicesService: DevicesService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private statusService: StatusService
   ) { }
 
   private deviceSubject = new BehaviorSubject<IDevice | null>({} as IDevice)
@@ -56,6 +59,7 @@ export class DeviceInfoComponent implements OnInit{
           filter(id => !!id),
           switchMap(id => this.devicesService.getDeviceById(id as string)),
           catchError(err => {
+            this.statusService.updateStatus(Actions.RefreshDeviceProperties, StatusState.Failed)
             throw Error(err)
           }),
           tap(device => {
@@ -67,23 +71,28 @@ export class DeviceInfoComponent implements OnInit{
           })
         )
         .subscribe(device => {
+          this.statusService.updateStatus(Actions.RefreshDeviceProperties, StatusState.Success)
           this.deviceSubject.next(device)
         })
     )
   }
 
   onFormChanges(changes: IFormGeneratorOutput) {
+    this.statusService.setStatus(DEVICE_UPDATE_STEPS)
+
     if (this.deviceSubject.value) {
       const updateControls = this.mapControlValues(changes)
 
       this.devicesService.updateDevice(this.deviceSubject.value.id, updateControls)
         .pipe(
           catchError(err => {
+            this.statusService.updateStatus(Actions.UpdateDeviceStates, StatusState.Failed)
             this.formGenerator.resetForm()
             throw Error(err)
           })
         )
         .subscribe(response => {
+          this.statusService.updateStatus(Actions.UpdateDeviceStates, StatusState.Success)
           this.deviceIdSubject.next(this.deviceIdSubject.value)
         })
     }
