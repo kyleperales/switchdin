@@ -1,12 +1,22 @@
 import { Component, forwardRef, Input } from '@angular/core'
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms'
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormControl,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatInputModule } from '@angular/material/input'
 
 @Component({
   selector: 'app-number-input',
   standalone: true,
-  imports: [MatInputModule, FormsModule, MatButtonModule],
+  imports: [MatInputModule, FormsModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './number-input.component.html',
   styleUrl: './number-input.component.scss',
   providers: [
@@ -19,17 +29,14 @@ import { MatInputModule } from '@angular/material/input'
 })
 export class NumberInputComponent implements ControlValueAccessor {
 
-  private _value: number = 0
-  get value() {
-    return this._value
-  }
+  formControl = new FormControl('', [Validators.min(0), this.numberOnlyValidator()])
 
-  set value(value: number) {
-    this._value = value
+  get isUpdateDisabled() {
+    return this.formControl.value === this.initialValue.toLocaleString() || this.formControl.invalid
   }
 
   writeValue(value: number): void {
-    this._value = value
+    this.formControl.setValue(value?.toString())
   }
   
   @Input() label: string = ''
@@ -54,6 +61,13 @@ export class NumberInputComponent implements ControlValueAccessor {
   setDisabledState(isDisabled: boolean): void {}
 
   onUpdate() {
-    this.onChange(this.value)
+    this.onChange(this.formControl.value)
+  }
+  
+  numberOnlyValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = /^[0-9]*\.?[0-9]+$/.test(control.value)
+      return isValid ? null : { numberOnly: true }
+    }
   }
 }

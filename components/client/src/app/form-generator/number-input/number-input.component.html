@@ -6,11 +6,11 @@
   <div class="input-fields">
     <div>
       <mat-form-field>
-        <input matInput type="text" [(ngModel)]="value">
+        <input matInput type="text" [formControl]="formControl" >
       </mat-form-field>
     </div>
     <div>
-      <button mat-raised-button (click)="onUpdate()">Update</button>
+      <button mat-raised-button [disabled]="isUpdateDisabled" (click)="onUpdate()">Update</button>
     </div>
   </div>
 </div>
