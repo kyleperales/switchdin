@@ -1,14 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Control } from '../devices-service';
 import { CustomControl, NumberControl, SlideControl } from './custom-controls/custom-control';
-import { CommonModule } from '@angular/common';
 import { NumberInputComponent } from './number-input/number-input.component';
 
 @Component({
   selector: 'app-form-generator',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NumberInputComponent],
+  imports: [CommonModule, ReactiveFormsModule, NumberInputComponent, MatSlideToggleModule],
   templateUrl: './form-generator.component.html',
   styleUrl: './form-generator.component.scss'
 })
