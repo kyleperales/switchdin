@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatTabsModule } from '@angular/material/tabs'
 import { ActivatedRoute } from '@angular/router'
-import { BehaviorSubject, catchError, of, tap } from 'rxjs'
+import { BehaviorSubject, catchError, filter, of, Subscription, switchMap, tap } from 'rxjs'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
 import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
 
@@ -35,21 +35,27 @@ export class DeviceInfoComponent implements OnInit{
   private deviceSubject = new BehaviorSubject<IDevice | null>({} as IDevice)
   public device$ = this.deviceSubject.asObservable()
 
-  private deviceId: string | null = ''
   private deviceControlsMap = new Map<string, IControl>()
+  private deviceIdSubject = new BehaviorSubject<string | null>(null)
+  public deviceId$ = this.deviceIdSubject.asObservable()
+
+  private subscriptions = new Subscription()
 
 
   ngOnInit() {
-    this.deviceId = this.route.snapshot.paramMap.get('id')
+    const deviceId = this.route.snapshot.paramMap.get('id')
+    this.deviceIdSubject.next(deviceId)
 
-    if (this.deviceId) {
-      this.devicesService.getDeviceById(this.deviceId)
+    this.subscriptions.add(
+      this.deviceId$
         .pipe(
+          filter(id => !!id),
+          switchMap(id => this.devicesService.getDeviceById(id as string)),
           catchError(err => {
             console.error(err)
             return of(null)
           }),
-          tap(device => {            
+          tap(device => {
             this.deviceControlsMap = (device?.controls ?? [])
               .reduce((acc, control) => {
                 acc.set(control.key, control)
@@ -61,7 +67,7 @@ export class DeviceInfoComponent implements OnInit{
           console.log(device)
           this.deviceSubject.next(device)
         })
-    }
+    )
   }
 
   onFormChanges(changes: IFormGeneratorOutput) {
@@ -69,8 +75,15 @@ export class DeviceInfoComponent implements OnInit{
       const updateControls = this.mapControlValues(changes)
 
       this.devicesService.updateDevice(this.deviceSubject.value.id, updateControls)
+        .pipe(
+          catchError(err => {
+            console.error(err)
+            return of(null)
+          })
+        )
         .subscribe(response => {
           console.log(response)
+          this.deviceIdSubject.next(this.deviceIdSubject.value)
         })
     }
   }

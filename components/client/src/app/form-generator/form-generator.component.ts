@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { Subscription } from 'rxjs'
@@ -18,7 +18,7 @@ export interface IFormGeneratorOutput {
   templateUrl: './form-generator.component.html',
   styleUrl: './form-generator.component.scss'
 })
-export class FormGeneratorComponent implements OnInit, OnDestroy {
+export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() config: IControl[] = []
   @Output() onChanges = new EventEmitter<IFormGeneratorOutput>()
@@ -31,6 +31,20 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   formControls: { [key: string]: CustomControl } = {}
 
   ngOnInit() {
+    this.setupForm()
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['config']) {
+      this.setupForm()
+    }
+  }
+
+  private setupForm() {    
     const group: { [key: string]: CustomControl } = {}
     if (this.config) {
       this.config.forEach(control => {
@@ -47,10 +61,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         this.onChanges.emit(value)
       })
     )
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe()
   }
 
   private determineControl(control: IControl): CustomControl {
