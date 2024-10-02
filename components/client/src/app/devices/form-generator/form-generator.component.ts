@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { Subscription } from 'rxjs'
-import { IControl } from '../../devices-service'
+import { IControl } from '../devices-service'
 import { CustomControl, NumberControl, SlideControl } from './custom-controls/custom-control'
 import { NumberInputComponent } from './number-input/number-input.component'
 

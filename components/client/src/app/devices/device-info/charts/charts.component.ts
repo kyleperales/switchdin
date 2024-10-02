@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core'
 import { filter, skip } from 'rxjs'
-import { LineChartComponent } from '../../core/line-chart/line-chart.component'
+import { LineChartComponent } from '../../../shared/line-chart/line-chart.component'
 import { IDevice } from '../../devices-service'
 import { ChartsService, IWebSocketData } from './charts.service'
 

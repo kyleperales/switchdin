@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { RouterOutlet } from '@angular/router'
 import { Subscription } from 'rxjs'
@@ -11,7 +11,7 @@ import { StatusComponent, StatusService } from './core/status'
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'switchdin-ui'
   
   constructor(
@@ -19,9 +19,8 @@ export class AppComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
-  statusOpen = false
-
-  subscriptions = new Subscription()
+  private statusOpen = false
+  private subscriptions = new Subscription()
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -37,5 +36,9 @@ export class AppComponent implements OnInit {
           }
       })
     )
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
   }
 }
