@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -12,6 +12,7 @@ import { Actions, StatusService, StatusState } from '../core/status'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
 import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
 import { DEVICE_UPDATE_STEPS } from './device-info.model'
+import { MetricsComponent } from './metrics/metrics.component'
 
 @Component({
   selector: 'app-device-info',
@@ -24,12 +25,13 @@ import { DEVICE_UPDATE_STEPS } from './device-info.model'
     ReactiveFormsModule,
     FormGeneratorComponent,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MetricsComponent
   ],
   templateUrl: './device-info.component.html',
   styleUrl: './device-info.component.scss'
 })
-export class DeviceInfoComponent implements OnInit{
+export class DeviceInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private devicesService: DevicesService,
@@ -76,6 +78,10 @@ export class DeviceInfoComponent implements OnInit{
           this.deviceSubject.next(device)
         })
     )
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe()
   }
 
   onFormChanges(changes: IFormGeneratorOutput) {
