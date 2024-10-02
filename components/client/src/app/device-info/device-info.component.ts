@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { BehaviorSubject, catchError, filter, Subscription, switchMap, tap } from 'rxjs'
 import { Actions, StatusService, StatusState } from '../core/status'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
-import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
+import { FormGeneratorComponent, IFormGeneratorOutput } from '../core/form-generator/form-generator.component'
 import { ChartsComponent } from './charts/charts.component'
 import { DEVICE_UPDATE_STEPS } from './device-info.model'
 

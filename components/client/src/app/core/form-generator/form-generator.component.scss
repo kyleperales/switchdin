@@ -8,6 +8,12 @@
   .input-container {
     width: 100%;
   }
+  .slide-toggle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
   
   .number-input {
     display: flex;

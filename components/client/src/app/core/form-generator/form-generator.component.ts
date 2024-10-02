@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { Subscription } from 'rxjs'
-import { IControl } from '../devices-service'
+import { IControl } from '../../devices-service'
 import { CustomControl, NumberControl, SlideControl } from './custom-controls/custom-control'
 import { NumberInputComponent } from './number-input/number-input.component'
 
@@ -30,8 +30,8 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup = new FormGroup({})
   formControls: { [key: string]: CustomControl } = {}
   
-  // This is a workaround to prevent the form from emitting changes when reset
-  // not sure why emitEvent is not working
+  // This is a workaround to prevent the form from emitting changes on form reset
+  // not sure why `emitEvent: false` is not working
   private fromReset = false
 
   ngOnInit() {

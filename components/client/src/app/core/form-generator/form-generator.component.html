@@ -1,13 +1,16 @@
 <div [formGroup]="form" class="form-generator-container">
   <ng-container *ngFor="let control of formControls | keyvalue">
     <ng-container [ngSwitch]="control.value.type">
-      <div *ngSwitchCase="'boolean'" class="input-container">
+      <div *ngSwitchCase="'boolean'" class="input-container slide-toggle">
+        <span>{{ control.value.label }}</span>
         <mat-slide-toggle [formControlName]="control.key">
-          {{ control.value.label }}
         </mat-slide-toggle> 
       </div>     
       <div *ngSwitchCase="'number'" class="input-container">
-        <app-number-input [label]="control.value.label" [initialValue]="control.value.initialValue" [formControlName]="control.key">
+        <app-number-input
+          [label]="control.value.label"
+          [initialValue]="control.value.initialValue"
+          [formControlName]="control.key">
         </app-number-input>
       </div>
     </ng-container>
