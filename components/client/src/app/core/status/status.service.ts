@@ -36,6 +36,10 @@ export class StatusService {
   }
 
   updateStatus(id: Actions, state: StatusState) {
+    if (!this.statusMap?.size) {
+      return
+    }
+
     const selectedStatus = this.statusMap.get(id)
     if (selectedStatus) {
       selectedStatus.state = state
@@ -49,6 +53,7 @@ export class StatusService {
 
   clearStatus() {
     this.statusSubject.next([])
+    this.statusMap.clear()
   }
 
   destroy() {

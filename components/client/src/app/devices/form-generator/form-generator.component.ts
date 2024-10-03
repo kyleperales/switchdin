@@ -29,6 +29,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
 
   controlsForm: FormGroup = new FormGroup({})
   customControls: { [key: string]: CustomControl } = {}
+  private propertiesGroup: string
   
   // This is a workaround to prevent the form from emitting changes on form reset
   // not sure why `emitEvent: false` is not working
@@ -52,7 +53,11 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
     const group: { [key: string]: CustomControl } = {}
     if (this.config) {
       this.config.forEach(control => {
-        group[control.key] = this.determineControl(control)
+        // This will use only the second part of the key
+        // to avoid form group errors when the key is in the format `group.key`
+        const keys = control.key.split('.')
+        this.propertiesGroup = keys[0]
+        group[keys[1]] = this.determineControl(control)
       })
       this.customControls = group
       this.controlsForm = new FormGroup(group)
@@ -89,7 +94,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
     Object.keys(this.controlsForm.controls).forEach(key => {
       const control = this.controlsForm.controls[key]
       if (control.dirty) {
-        changes[key] = control.value
+        changes[`${this.propertiesGroup}.${key}`] = control.value
       }
     })
     return changes
