@@ -13,13 +13,7 @@ export class StatusService {
 
   private statusSubject = new BehaviorSubject<IStatus[]>([])
   public status$ = this.statusSubject.asObservable()
-
-  get status() {
-    return this.statusSubject.value
-  }
-  set status(status: IStatus[]) {
-    this.statusSubject.next(status)
-  }
+  private statusMap: Map<Actions, IStatus>
 
   onInit() {
     this.status$
@@ -34,26 +28,30 @@ export class StatusService {
   }
 
   setStatus(status: IStatus[]) {
-    this.status = status
-  }
-  
-  getStatus(): IStatus[] {
-    return this.status
+    this.statusSubject.next(status)
+    this.statusMap = status.reduce((acc, status) => {
+      acc.set(status.id, status)
+      return acc
+    }, new Map())
   }
 
-  updateStatus(id: Actions, state: StatusState) {    
-    this.status = this.status.map(status => {
-      if (status.id === id) {
-        return {
-          ...status,
-          state
-        }
-      }
-      return status
-    })
+  updateStatus(id: Actions, state: StatusState) {
+    const selectedStatus = this.statusMap.get(id)
+    if (selectedStatus) {
+      selectedStatus.state = state
+      this.statusMap.set(id, selectedStatus)
+      const updatedStatuses = Array.from(this.statusMap.values())
+      this.statusSubject.next(updatedStatuses)
+    } else {
+      console.error('Status not found')
+    }
   }
 
   clearStatus() {
-    this.status = []
+    this.statusSubject.next([])
+  }
+
+  destroy() {
+    this.statusSubject.complete()
   }
 }

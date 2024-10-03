@@ -27,8 +27,8 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor() { }
 
-  form: FormGroup = new FormGroup({})
-  formControls: { [key: string]: CustomControl } = {}
+  controlsForm: FormGroup = new FormGroup({})
+  customControls: { [key: string]: CustomControl } = {}
   
   // This is a workaround to prevent the form from emitting changes on form reset
   // not sure why `emitEvent: false` is not working
@@ -54,14 +54,14 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
       this.config.forEach(control => {
         group[control.key] = this.determineControl(control)
       })
-      this.formControls = group
-      this.form = new FormGroup(group)
+      this.customControls = group
+      this.controlsForm = new FormGroup(group)
     }
 
     this.subscriptions.add(
-      this.form.valueChanges.subscribe(value => {
+      this.controlsForm.valueChanges.subscribe(value => {
         if (!this.fromReset) {
-          this.onChanges.emit(value)
+          this.onChanges.emit(this.getChangedValues())
         }
         this.fromReset = false
       })
@@ -81,6 +81,17 @@ export class FormGeneratorComponent implements OnInit, OnDestroy, OnChanges {
 
   resetForm() {
     this.fromReset = true
-    this.form.reset({ emitEvent: false })
+    this.controlsForm.reset({ emitEvent: false })
+  }
+
+  private getChangedValues(): IFormGeneratorOutput {
+    const changes: IFormGeneratorOutput = {}
+    Object.keys(this.controlsForm.controls).forEach(key => {
+      const control = this.controlsForm.controls[key]
+      if (control.dirty) {
+        changes[key] = control.value
+      }
+    })
+    return changes
   }
 }
