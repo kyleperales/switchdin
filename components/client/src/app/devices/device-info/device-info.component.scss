@@ -2,6 +2,7 @@
 
 .device-info-container {
   width: 35vw;
+  margin-top: 10vh;
 
   .device-info {
     display: flex;
@@ -11,7 +12,11 @@
   }
 
   mat-tab-group {
-    background-color: $white;
+    background-color: $off-white;
     border-radius: 5px;
+  }
+
+  p {
+    color: $black;
   }
 }

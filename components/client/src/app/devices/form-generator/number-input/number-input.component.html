@@ -1,6 +1,6 @@
 <div class="number-input-container">
   <div class="input-details">
-    <span>{{ label }}</span>
+    <span class="label">{{ label }}</span>
     <span>{{ initialValue }}</span>
   </div>
   <div class="input-fields">
@@ -10,7 +10,9 @@
       </mat-form-field>
     </div>
     <div>
-      <button mat-raised-button [disabled]="isUpdateDisabled" (click)="onUpdate()">Update</button>
+      <button mat-raised-button color="primary" [disabled]="isUpdateDisabled" (click)="onUpdate()">\
+        Update
+      </button>
     </div>
   </div>
 </div>
