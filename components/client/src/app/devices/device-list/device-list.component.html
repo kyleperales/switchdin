@@ -1,6 +1,8 @@
 <div class="device-list-container">
   <p class="greeting">Hello!</p>
-  <p class="description">Here are the devices you have connected to your account.</p>
+  <p class="description" *ngIf="!isLoading && !!devices.length">
+    Here are the devices you have connected to your account.
+  </p>
   <div class="device-list">
     <div *ngIf="isLoading">
       <mat-spinner></mat-spinner>
@@ -10,6 +12,9 @@
         <div class="device-info">
           <div class="device-name">{{ device.name }}</div>
         </div>
+      </div>
+      <div *ngIf="!devices.length">
+        <p class="description">No devices found.</p>
       </div>
     </div>
   </div>

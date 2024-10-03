@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { Router } from '@angular/router'
-import { catchError } from 'rxjs'
+import { catchError, retry } from 'rxjs'
 import { DevicesService, IDevice } from '../devices-service'
 
 @Component({
@@ -19,15 +19,21 @@ export class DeviceListComponent implements OnInit{
     private router: Router
   ) { }
 
-  devices: IDevice[] = []
+  devices: any = []
   isLoading = false
+  hasError: any
 
   ngOnInit() {
     this.isLoading = true
     this.devicesService.getDevices()
       .pipe(
+        retry({
+          count: 3,
+          delay: 1000
+        }),
         catchError(err => {
           this.isLoading = false
+          this.hasError = true
           throw Error(err)
         })
       )

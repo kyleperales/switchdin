@@ -12,6 +12,15 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+
+    mat-icon {
+      &.check {
+        color: $blue;
+      }
+      &.error {
+        color: $red;
+      }
+    }
   }
 
   span {

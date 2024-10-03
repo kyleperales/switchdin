@@ -5,13 +5,13 @@
     <span>{{ status.name }}</span>
     <span>
       @if (status.state === states.Pending) {
-        <mat-icon>more_horiz</mat-icon>
+        <mat-icon class="pending">more_horiz</mat-icon>
       }
       @else if (status.state === states.Success) {
-        <mat-icon>check</mat-icon>
+        <mat-icon class="check">check</mat-icon>
       }
       @else if (status.state === states.Failed) {
-        <mat-icon>error</mat-icon>
+        <mat-icon class="error">error</mat-icon>
       }
     </span>
   </div>
