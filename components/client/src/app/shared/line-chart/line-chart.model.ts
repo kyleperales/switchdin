@@ -15,3 +15,5 @@ export const CHART_OPTIONS = {
     },
   },
 }
+
+export const MAX_DATA_POINTS = 40

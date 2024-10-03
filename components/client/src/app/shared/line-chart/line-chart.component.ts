@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core'
 import { BaseChartDirective } from 'ng2-charts'
-import { CHART_OPTIONS, IChartData } from './line-chart.model'
+import { CHART_OPTIONS, IChartData, MAX_DATA_POINTS } from './line-chart.model'
 
 @Component({
   selector: 'app-line-chart',
@@ -27,10 +27,20 @@ export class LineChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['newData'] && this.data) {
-      this.data.labels.push('')
-      this.data.datasets[0].data.push(this.newData)
-      this.chart?.update()
+      this.updateChartData()
     }
+  }
+
+  private updateChartData() {
+    this.data.labels.push('')
+    this.data.datasets[0].data.push(this.newData)
+
+    if (this.data.labels.length > MAX_DATA_POINTS) {
+      this.data.labels.shift()
+      this.data.datasets[0].data.shift()
+    }
+
+    this.chart?.update()
   }
 
   private getChartData(): IChartData {
