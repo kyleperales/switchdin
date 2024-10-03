@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatTabsModule } from '@angular/material/tabs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { BehaviorSubject, catchError, filter, Subscription, switchMap, tap } from 'rxjs'
+import { BehaviorSubject, catchError, Subject, Subscription, switchMap, take, tap } from 'rxjs'
 import { Actions, StatusService, StatusState } from '../../core/status'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
 import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
@@ -42,24 +42,30 @@ export class DeviceInfoComponent implements OnInit, OnDestroy {
 
   private deviceSubject = new BehaviorSubject<IDevice | null>(null)
   public device$ = this.deviceSubject.asObservable()
+    .pipe(take(2))
 
   private deviceControlsMap = new Map<string, IControl>()
-  private deviceIdSubject = new BehaviorSubject<string | null>(null)
-  public deviceId$ = this.deviceIdSubject.asObservable()
 
+  get controls() {
+    return this.deviceSubject.value?.controls ?? []
+  }
+
+  private refreshSubject = new Subject<void>()
+  refresh$ = this.refreshSubject.asObservable()
+
+  private deviceId: string
   private subscriptions = new Subscription()
+  
 
   @ViewChild('formGenerator') formGenerator: FormGeneratorComponent
 
   ngOnInit() {
-    const deviceId = this.route.snapshot.paramMap.get('id')
-    this.deviceIdSubject.next(deviceId)
+    this.deviceId = this.route.snapshot.paramMap.get('id') ?? ''
 
     this.subscriptions.add(
-      this.deviceId$
+      this.refresh$
         .pipe(
-          filter(id => !!id),
-          switchMap(id => this.devicesService.getDeviceById(id as string)),
+          switchMap(id => this.devicesService.getDeviceById(this.deviceId)),
           catchError(err => {
             this.statusService.updateStatus(Actions.RefreshDeviceProperties, StatusState.Failed)
             this.onHomeClick()
@@ -78,10 +84,14 @@ export class DeviceInfoComponent implements OnInit, OnDestroy {
           this.deviceSubject.next(device)
         })
     )
+    
+    this.refreshSubject.next()
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe()
+    this.deviceSubject.complete()
+    this.refreshSubject.complete()
   }
 
   onFormChanges(changes: IFormGeneratorOutput) {
@@ -94,19 +104,19 @@ export class DeviceInfoComponent implements OnInit, OnDestroy {
         .pipe(
           catchError(err => {
             this.statusService.updateStatus(Actions.UpdateDeviceStates, StatusState.Failed)
-            this.deviceIdSubject.next(this.deviceIdSubject.value)
+            this.refreshSubject.next()
             this.formGenerator.resetForm()
             throw Error(err)
           })
         )
         .subscribe(response => {
           this.statusService.updateStatus(Actions.UpdateDeviceStates, StatusState.Success)
-          this.deviceIdSubject.next(this.deviceIdSubject.value)
+          this.refreshSubject.next()
         })
     }
   }
 
-  mapControlValues(device: IFormGeneratorOutput): IUpdateControl[] {
+  private mapControlValues(device: IFormGeneratorOutput): IUpdateControl[] {
     return Object.keys(device).map(key => ({
       key: key,
       value: this.deviceControlsMap.get(key)?.type === 'boolean'
