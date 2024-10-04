@@ -19,5 +19,10 @@
   </mat-tab-group>  
 </div>
 <ng-template #noDevice>
-  <p class="no-device-selected">No device selected</p>
+  <div class="no-device">
+    <p class="no-device-selected">No device selected</p>
+    <button mat-mini-fab (click)="onHomeClick()">
+      <mat-icon>home</mat-icon>
+    </button>
+  </div>
 </ng-template>

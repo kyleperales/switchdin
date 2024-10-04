@@ -5,9 +5,10 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatTabsModule } from '@angular/material/tabs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { BehaviorSubject, catchError, Subject, Subscription, switchMap, take, tap } from 'rxjs'
+import { BehaviorSubject, catchError, of, Subject, Subscription, switchMap, take, tap } from 'rxjs'
 import { Actions, StatusService, StatusState } from '../../core/status'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
 import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
@@ -37,7 +38,8 @@ export class DeviceInfoComponent implements OnInit, OnDestroy {
     private devicesService: DevicesService,
     private route: ActivatedRoute,
     private router: Router,
-    private statusService: StatusService
+    private statusService: StatusService,
+    private snackBar: MatSnackBar
   ) { }
 
   private deviceSubject = new BehaviorSubject<IDevice | null>(null)
@@ -65,12 +67,19 @@ export class DeviceInfoComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.refresh$
         .pipe(
-          switchMap(id => this.devicesService.getDeviceById(this.deviceId)),
-          catchError(err => {
-            this.statusService.updateStatus(Actions.RefreshDeviceProperties, StatusState.Failed)
-            this.onHomeClick()
-            throw Error(err)
-          }),
+          switchMap(id => 
+            this.devicesService.getDeviceById(this.deviceId)
+              .pipe(
+                catchError(err => {
+                  this.snackBar.open('Device not found.', 'Close', {
+                    duration: 5000,
+                    panelClass: 'error-snackbar'
+                  })
+                  console.warn('Error getting device by id', err)
+                  return of(null)
+                })
+              )
+          ),
           tap(device => {
             this.deviceControlsMap = (device?.controls ?? [])
               .reduce((acc, control) => {
