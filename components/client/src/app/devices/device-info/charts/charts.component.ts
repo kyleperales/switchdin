@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core'
-import { filter, skip } from 'rxjs'
+import { catchError, filter, skip } from 'rxjs'
 import { LineChartComponent } from '../../../shared/line-chart/line-chart.component'
 import { IDevice } from '../../devices-service'
 import { ChartsService, IWebSocketData } from './charts.service'
@@ -36,6 +36,10 @@ export class ChartsComponent implements OnChanges, OnDestroy, AfterViewInit, OnC
       .pipe(
         skip(1),
         filter(data => (data as { type: string })?.type !== 'control-acknowledgement'),
+        catchError(err => {
+          console.warn(err)
+          throw Error(err)
+        })
       )
       .subscribe(data => {
         this.mapData(data as IWebSocketData)
