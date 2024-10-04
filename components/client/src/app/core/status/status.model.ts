@@ -11,6 +11,6 @@ export enum Actions {
 
 export interface IStatus {
   id: Actions
-  name: string
+  description: string
   state: StatusState
 }

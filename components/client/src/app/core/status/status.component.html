@@ -1,7 +1,7 @@
 <div class="status-container">
-  <span>Status: </span>
+  <span>{{ 'status.label' | translate }}</span>
   <div *ngFor="let status of (status$ | async)" class="state">
-    <span>{{ status.name }}</span>
+    <span>{{ status.description | translate }}</span>
     <span>
       @if (status.state === states.Pending) {
         <mat-icon class="pending">more_horiz</mat-icon>

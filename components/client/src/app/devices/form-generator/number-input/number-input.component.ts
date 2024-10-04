@@ -12,11 +12,12 @@ import {
 } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatInputModule } from '@angular/material/input'
+import { TranslatePipe } from '../../../shared/translate'
 
 @Component({
   selector: 'app-number-input',
   standalone: true,
-  imports: [MatInputModule, FormsModule, MatButtonModule, ReactiveFormsModule],
+  imports: [MatInputModule, FormsModule, MatButtonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './number-input.component.html',
   styleUrl: './number-input.component.scss',
   providers: [

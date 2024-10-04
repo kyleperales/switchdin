@@ -4,11 +4,12 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { StatusState } from './status.model'
 import { StatusService } from './status.service'
+import { TranslatePipe } from '../../shared/translate'
 
 @Component({
   selector: 'app-status',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, CommonModule],
+  imports: [MatButtonModule, MatIconModule, CommonModule, TranslatePipe],
   templateUrl: './status.component.html',
   styleUrl: './status.component.scss'
 })

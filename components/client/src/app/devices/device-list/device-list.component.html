@@ -1,7 +1,7 @@
 <div class="device-list-container">
-  <p class="greeting">Hello!</p>
+  <p class="greeting">{{ 'device-list.greeting' | translate }}</p>
   <p class="description" *ngIf="!isLoading && !!devices.length">
-    Here are the devices you have connected to your account.
+    {{ 'device-list.description' | translate }}
   </p>
   <div class="device-list">
     <div *ngIf="isLoading">
@@ -14,7 +14,9 @@
         </div>
       </div>
       <div *ngIf="!devices.length">
-        <p class="description">No devices found.</p>
+        <p class="description">
+          {{ 'device-list.empty' | translate }}
+        </p>
       </div>
     </div>
   </div>

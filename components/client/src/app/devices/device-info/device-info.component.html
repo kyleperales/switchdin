@@ -6,13 +6,13 @@
     </button>
   </div>
   <mat-tab-group>
-    <mat-tab label="Controls"> 
+    <mat-tab label="{{'device-info.controls.label' | translate}}"> 
       <app-form-generator #formGenerator *ngIf="controls.length"
         [config]="controls"
         (onChanges)="onFormChanges($event)">
       </app-form-generator>
     </mat-tab>
-    <mat-tab label="Charts">
+    <mat-tab label="{{'device-info.charts.label' | translate}}">
       <app-charts [device]="device">
       </app-charts>
     </mat-tab>
@@ -20,7 +20,9 @@
 </div>
 <ng-template #noDevice>
   <div class="no-device">
-    <p class="no-device-selected">No device selected</p>
+    <p class="no-device-selected">
+      {{ 'device-info.device-not-found' | translate }}
+    </p>
     <button mat-mini-fab (click)="onHomeClick()">
       <mat-icon>home</mat-icon>
     </button>

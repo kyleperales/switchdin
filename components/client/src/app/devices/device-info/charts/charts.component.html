@@ -1,6 +1,6 @@
 <div class="chart-container">
   <div class="chart-group">
-    <span class="header">Metrics</span>
+    <span class="header">{{ 'device-info.charts.metrics' | translate }}</span>
     <div *ngFor="let metric of metrics" class="chart">
       <span>{{ metric.name }} ({{ metric.unit }})</span>
       <div>
@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="chart-group">
-    <span class="header">Controls</span>
+    <span class="header">{{ 'device-info.charts.controls' | translate }}</span>
     <div *ngFor="let control of controls" class="chart">
       <span>{{ control.name }}</span>
       <div>

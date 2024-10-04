@@ -4,12 +4,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { catchError, retry } from 'rxjs'
+import { TranslatePipe, TranslateService } from '../../shared/translate'
 import { DevicesService } from '../devices-service'
 
 @Component({
   selector: 'app-device-list',
   standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatProgressSpinnerModule, TranslatePipe],
   templateUrl: './device-list.component.html',
   styleUrl: './device-list.component.scss'
 })
@@ -18,7 +19,8 @@ export class DeviceListComponent implements OnInit{
   constructor(
     private devicesService: DevicesService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService
   ) { }
 
   devices: any = []
@@ -34,7 +36,7 @@ export class DeviceListComponent implements OnInit{
           delay: 1000
         }),
         catchError(err => {
-          this.snackBar.open('Something went wrong.', 'Close', {
+          this.snackBar.open(this.translateService.translate('generic.error'), 'Close', {
             duration: 5000,
             panelClass: 'error-snackbar'
           })

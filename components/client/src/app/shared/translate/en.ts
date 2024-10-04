@@ -1,0 +1,16 @@
+export const LANG_EN = {
+  'device-list.greeting': 'Hello!',
+  'device-list.description': 'Here are your devices.',
+  'device-list.empty': 'No devices found.',
+  'device-info.device-not-found': 'No device selected',
+  'device-info.device-not-found.error': 'Device not found.',
+  'device-info.charts.metrics': 'Metrics',
+  'device-info.charts.controls': 'Controls',
+  'device-info.charts.label': 'Charts',
+  'device-info.controls.label': 'Controls',
+  'generic.error': 'Something went wrong.',
+  'update': 'Update',
+  'status.label': 'Status:',
+  'status.updating-device': 'Updating device',
+  'status.refreshing-device': 'Refreshing device properties',
+}

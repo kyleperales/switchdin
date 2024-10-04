@@ -10,6 +10,7 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { BehaviorSubject, catchError, of, Subject, Subscription, switchMap, take, tap } from 'rxjs'
 import { Actions, StatusService, StatusState } from '../../core/status'
+import { TranslatePipe, TranslateService } from '../../shared/translate'
 import { DevicesService, IControl, IDevice, IUpdateControl } from '../devices-service'
 import { FormGeneratorComponent, IFormGeneratorOutput } from '../form-generator/form-generator.component'
 import { ChartsComponent } from './charts/charts.component'
@@ -27,7 +28,8 @@ import { DEVICE_UPDATE_STEPS } from './device-info.model'
     FormGeneratorComponent,
     MatTabsModule,
     MatIconModule,
-    ChartsComponent
+    ChartsComponent,
+    TranslatePipe
   ],
   templateUrl: './device-info.component.html',
   styleUrl: './device-info.component.scss'
@@ -39,7 +41,8 @@ export class DeviceInfoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private statusService: StatusService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService
   ) { }
 
   private deviceSubject = new BehaviorSubject<IDevice | null>(null)
@@ -71,7 +74,7 @@ export class DeviceInfoComponent implements OnInit, OnDestroy {
             this.devicesService.getDeviceById(this.deviceId)
               .pipe(
                 catchError(err => {
-                  this.snackBar.open('Device not found.', 'Close', {
+                  this.snackBar.open(this.translateService.translate('device-info.device-not-found.error'), 'Close', {
                     duration: 5000,
                     panelClass: 'error-snackbar'
                   })

@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common'
 import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core'
 import { catchError, filter, skip } from 'rxjs'
 import { LineChartComponent } from '../../../shared/line-chart/line-chart.component'
+import { TranslatePipe } from '../../../shared/translate'
 import { IDevice } from '../../devices-service'
 import { ChartsService, IWebSocketData } from './charts.service'
 
 @Component({
   selector: 'app-charts',
   standalone: true,
-  imports: [CommonModule, LineChartComponent],
+  imports: [CommonModule, LineChartComponent, TranslatePipe],
   templateUrl: './charts.component.html',
   styleUrl: './charts.component.scss'
 })
