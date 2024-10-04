@@ -12,6 +12,13 @@ assigned you this test. If you have any questions, please reach out to them.
 
 - Node.js (Any recent version should work. Tested with v18.20.3)
 
+## Running the client
+
+```
+cd components/client
+npm run start
+```
+
 ## Running the server
 
 ```
