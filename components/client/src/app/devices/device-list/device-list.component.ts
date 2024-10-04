@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { catchError, retry } from 'rxjs'
-import { DevicesService, IDevice } from '../devices-service'
+import { DevicesService } from '../devices-service'
 
 @Component({
   selector: 'app-device-list',
@@ -16,7 +17,8 @@ export class DeviceListComponent implements OnInit{
   
   constructor(
     private devicesService: DevicesService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   devices: any = []
@@ -32,6 +34,11 @@ export class DeviceListComponent implements OnInit{
           delay: 1000
         }),
         catchError(err => {
+          this.snackBar.open('Something went wrong.', 'Close', {
+            duration: 5000,
+            panelClass: 'error-snackbar'
+          })
+
           this.isLoading = false
           this.hasError = true
           throw Error(err)
